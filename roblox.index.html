@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Robux Gift Cards</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+        
+        body { font-family: 'Poppins', sans-serif; }
+        
+        .reward-card {
+            transition: all 0.3s ease;
+        }
+        .reward-card:hover { transform: translateY(-4px); }
+        .reward-card.selected {
+            border-color: #6366f1;
+            background-color: rgba(99, 102, 241, 0.12);
+        }
+        
+        .code-font {
+            font-family: 'Courier New', monospace;
+            letter-spacing: 5px;
+        }
+        
+        .notification {
+            animation: slideUp 0.4s ease forwards;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="bg-[#0a0a14] text-white min-h-screen">
+
+    <!-- Top Gift Cards Banner - Smaller & Cleaner -->
+    <div class="w-full pt-8 pb-6 px-6">
+        <div class="max-w-md mx-auto">
+            <img src="https://static0.srcdn.com/wordpress/wp-content/uploads/2022/01/Roblox-Gift-Cards-against-a-blurred-background-of-game-icons.jpg" 
+                 alt="Roblox Gift Cards"
+                 class="w-full rounded-3xl shadow-2xl border border-gray-700">
+        </div>
+    </div>
+
+    <div class="max-w-lg w-full mx-auto px-6 pb-12">
+
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold tracking-tight">Free Robux Gift Cards</h1>
+            <p class="text-gray-400 mt-2">Choose amount • Generate instantly</p>
+        </div>
+
+        <!-- Live Stats -->
+        <div class="flex justify-center gap-6 text-sm mb-10 text-gray-300">
+            <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse"></span>
+                <span>Server: <span class="text-emerald-400">Online</span></span>
+            </div>
+            <div>👥 <span id="online" class="font-semibold">459</span> online</div>
+            <div>⚡ <span id="today" class="font-semibold">27,128</span> today</div>
+        </div>
+
+        <!-- Main Card -->
+        <div class="bg-[#12121f] border border-gray-800 rounded-3xl p-8">
+
+            <!-- Username -->
+            <div class="mb-8">
+                <label class="block text-sm text-gray-400 mb-2">Roblox Username</label>
+                <input id="username" type="text" 
+                       class="w-full bg-[#1a1a2e] border border-gray-700 rounded-2xl px-5 py-4 text-white placeholder-gray-500 focus:border-indigo-500 focus:outline-none"
+                       placeholder="Enter your Roblox username">
+            </div>
+
+            <!-- Reward Selection -->
+            <div class="mb-8">
+                <div class="text-xs uppercase tracking-widest text-gray-500 mb-4">CHOOSE YOUR FREE REWARD</div>
+                <div id="rewards" class="space-y-3">
+                    <!-- JS populated -->
+                </div>
+            </div>
+
+            <!-- Generate Button -->
+            <button onclick="startGeneration()" id="gen-btn"
+                class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 py-4 rounded-2xl text-lg font-semibold">
+                Generate Gift Card Code
+            </button>
+
+            <!-- 6-Second Generation Animation -->
+            <div id="generating" class="hidden text-center py-12">
+                <div class="w-16 h-16 mx-auto border-4 border-purple-500 border-t-transparent rounded-full animate-spin mb-6"></div>
+                <p class="text-purple-400 font-medium">Generating secure code...</p>
+                <p class="text-sm text-gray-500 mt-2">Please wait</p>
+                
+                <div class="mt-8 bg-[#0a0a14] border border-gray-700 rounded-2xl p-6">
+                    <p class="text-xs text-gray-400 mb-3 text-center">CODE GENERATING...</p>
+                    <p id="anim-code" class="code-font text-3xl text-white text-center">XXXXXXXXXXXX-XXXX</p>
+                </div>
+            </div>
+
+            <!-- Final Code Result -->
+            <div id="result" class="hidden">
+                <div class="bg-[#0a0a14] border border-gray-700 rounded-3xl p-8 text-center">
+                    <p class="uppercase text-xs tracking-widest text-gray-400 mb-4">YOUR REWARD CODE</p>
+                    <p id="final-code" class="code-font text-4xl font-bold text-white tracking-widest">XXXXXXXXXXXX-T6P2</p>
+                    
+                    <div class="flex items-center justify-center gap-3 mt-6 text-amber-400 text-sm">
+                        <span class="text-xl">🔒</span>
+                        <span>Partially unlocked • Complete verification to claim</span>
+                    </div>
+                </div>
+
+                <button onclick="unlockCode()" 
+                    class="mt-8 w-full bg-[#facc15] hover:bg-yellow-400 transition-colors text-black font-bold py-5 rounded-2xl text-xl flex items-center justify-center gap-2">
+                    Unlock Full Code →
+                </button>
+            </div>
+        </div>
+
+        <!-- Trust -->
+        <div class="flex justify-center gap-8 mt-10 text-xs text-gray-500">
+            <div>🔒 Secure</div>
+            <div>⚡ Instant</div>
+            <div>✅ Verified</div>
+        </div>
+
+        <p class="text-center text-[10px] text-gray-600 mt-12">
+            Not affiliated with Roblox Corporation. For entertainment purposes only.
+        </p>
+    </div>
+
+    <!-- Random Claim Popup (Bottom Right) -->
+    <div id="notification" class="hidden fixed bottom-6 right-6 bg-[#1a1a2e] border border-emerald-500/70 text-emerald-400 text-sm px-5 py-3 rounded-2xl shadow-2xl max-w-[280px] notification flex items-center gap-3 z-50">
+        <span class="text-xl">🎉</span>
+        <span id="claim-text" class="leading-tight"></span>
+    </div>
+
+    <script>
+        const rewards = [500, 2000, 5000, 10000, 22500];
+        let selectedAmount = 2000;
+
+        const usernames = ["ProGamerYT", "RobloxQueen22", "NinjaSlayer", "PixelMaster", "CoolKid2025", "EpicDragon", "StarPlayerX", "ShadowHunter", "LuckyBlockKing", "RobuxAddict"];
+
+        function renderRewards() {
+            const container = document.getElementById('rewards');
+            container.innerHTML = '';
+            
+            rewards.forEach(amount => {
+                const isSelected = amount === selectedAmount;
+                const div = document.createElement('div');
+                div.className = `reward-card flex justify-between items-center px-6 py-5 bg-[#1a1a2e] border ${isSelected ? 'border-indigo-500' : 'border-transparent'} rounded-2xl cursor-pointer`;
+                div.innerHTML = `
+                    <div class="flex items-center gap-4">
+                        <input type="radio" ${isSelected ? 'checked' : ''} class="accent-indigo-500 pointer-events-none">
+                        <span class="text-xl font-semibold">${amount.toLocaleString()} Robux</span>
+                    </div>
+                    <span class="text-emerald-400 font-bold text-xl">FREE</span>
+                `;
+                div.onclick = () => {
+                    selectedAmount = amount;
+                    renderRewards();
+                };
+                container.appendChild(div);
+            });
+        }
+
+        function showRandomClaim() {
+            const notif = document.getElementById('notification');
+            const text = document.getElementById('claim-text');
+            
+            const randomUser = usernames[Math.floor(Math.random() * usernames.length)];
+            const randomAmount = rewards[Math.floor(Math.random() * rewards.length)];
+            
+            text.innerHTML = `<strong>${randomUser}</strong> just claimed <strong>${randomAmount.toLocaleString()} Robux</strong>!`;
+            notif.classList.remove('hidden');
+            
+            setTimeout(() => {
+                notif.classList.add('hidden');
+            }, 3800);
+        }
+
+        function animateCode() {
+            const codeEl = document.getElementById('anim-code');
+            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            let count = 0;
+            
+            const interval = setInterval(() => {
+                let display = "XXXXXXXXXXXX-";
+                for (let i = 0; i < 4; i++) {
+                    display += chars[Math.floor(Math.random() * chars.length)];
+                }
+                codeEl.textContent = display;
+                count++;
+                if (count > 35) clearInterval(interval);
+            }, 160);
+        }
+
+        function startGeneration() {
+            const username = document.getElementById('username').value.trim();
+            if (!username) {
+                alert("Please enter your Roblox username first!");
+                return;
+            }
+
+            document.getElementById('gen-btn').classList.add('hidden');
+            document.getElementById('generating').classList.remove('hidden');
+
+            animateCode();
+
+            setTimeout(() => {
+                document.getElementById('generating').classList.add('hidden');
+                document.getElementById('result').classList.remove('hidden');
+
+                const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+                let lastFour = "";
+                for (let i = 0; i < 4; i++) {
+                    lastFour += chars[Math.floor(Math.random() * chars.length)];
+                }
+                document.getElementById('final-code').textContent = `XXXXXXXXXXXX-${lastFour}`;
+            }, 6000);
+        }
+
+        function unlockCode() {
+            window.location.href = "https://robloxhelper.app/cl/i/4orqm5";
+        }
+
+        function startLiveFeatures() {
+            let online = 459;
+            let today = 27128;
+
+            setInterval(() => {
+                online = Math.floor(Math.random() * 85) + 420;
+                document.getElementById('online').textContent = online;
+                today += Math.floor(Math.random() * 32) + 14;
+                document.getElementById('today').textContent = today.toLocaleString();
+            }, 4600);
+
+            // Random claims
+            setInterval(() => {
+                if (Math.random() > 0.35) showRandomClaim();
+            }, 6500);
+        }
+
+        window.onload = () => {
+            renderRewards();
+            startLiveFeatures();
+        };
+    </script>
+</body>
+</html>
